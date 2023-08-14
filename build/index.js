@@ -27,7 +27,14 @@ const EditBlock = () => {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Team Members Block"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InnerBlocks, {
-    allowedBlocks: ["viktorias-blocks/team-member"]
+    allowedBlocks: ["viktorias-blocks/team-member"],
+    template: [["viktorias-blocks/team-member", {
+      name: "Firstname Lastname",
+      bio: "Amazingly perfect bio"
+    }], ["viktorias-blocks/team-member", {
+      name: "Coolname",
+      bio: "Super impressive bio"
+    }]]
   }));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditBlock);
