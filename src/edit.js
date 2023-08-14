@@ -1,14 +1,18 @@
 import { __ } from '@wordpress/i18n';
 
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 import './editor.scss';
 
 const EditBlock = () => {
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Boiler Plate – hello from the editor!', 'boiler-plate' ) }
-		</p>
+		<div {...useBlockProps()}>
+		<h2>Team Members Block</h2>
+			<InnerBlocks
+			allowedBlocks={["viktorias-blocks/team-member"]}
+			>
+			</InnerBlocks>
+		</div>
 	);
 }
 

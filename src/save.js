@@ -1,10 +1,11 @@
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 const SaveBlock = () => {
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Boiler Plate – hello from the saved content!' }
-		</p>
+		<div { ...useBlockProps.save() }>
+			<InnerBlocks.Content/>
+		</div>
 	);
 }
 
