@@ -1,4 +1,22 @@
 /*!***************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
   \***************************************************************************************************************************************************************************************************************************************/
+.wp-block-viktorias-blocks-team-block {
+  display: grid;
+  grid-gap: 1rem;
+  grid-auto-rows: 1fr;
+}
+.wp-block-viktorias-blocks-team-block.has-1-cols {
+  grid-template-columns: repeat(1, 1fr);
+}
+.wp-block-viktorias-blocks-team-block.has-2-cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+.wp-block-viktorias-blocks-team-block.has-3-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+.wp-block-viktorias-blocks-team-block.has-4-cols {
+  grid-template-columns: repeat(4, 1fr);
+}
 
+/*# sourceMappingURL=style-index.css.map*/

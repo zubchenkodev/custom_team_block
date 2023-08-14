@@ -4,6 +4,40 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-create-block-boiler-plate {
+ .wp-block-viktorias-blocks-team-block {
+    display: block;
+ }
 
-}
+ 
+
+.block-editor-block-list__block {
+    .block-editor-block-list__layout {
+        display: grid;
+        grid-gap: 1rem;
+        grid-auto-rows: 1fr;
+    }
+    &.has-1-cols {
+        .block-editor-block-list__layout {
+            grid-template-columns: repeat(1, 1fr);
+        }
+        
+    }
+    &.has-2-cols {
+        .block-editor-block-list__layout {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+    }
+    &.has-3-cols {
+        .block-editor-block-list__layout {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+    }
+    &.has-4-cols {
+        .block-editor-block-list__layout {
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+    }
+ }
