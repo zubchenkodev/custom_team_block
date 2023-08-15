@@ -28,4 +28,17 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.member-card__image {
+  position: relative;
+}
+.member-card__image.is-loading img {
+  opacity: 0.3;
+}
+.member-card__image .components-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 /*# sourceMappingURL=index.css.map*/

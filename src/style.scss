@@ -2,16 +2,10 @@
     display: grid;
     grid-gap: 1rem;
     grid-auto-rows: 1fr;
-    &.has-1-cols {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    &.has-2-cols {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    &.has-3-cols {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    &.has-4-cols {
-        grid-template-columns: repeat(4, 1fr);
+    
+    @for $i from 1 through 4 {
+        &.has-#{$i}-cols {
+            grid-template-columns: repeat(#{$i}, 1fr);
+        }
     }
 } 

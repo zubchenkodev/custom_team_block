@@ -4,9 +4,9 @@
  * Replace them with your own styles or remove the file completely.
  */
 
- .wp-block-viktorias-blocks-team-block {
+.wp-block-viktorias-blocks-team-block {
     display: block;
- }
+}
 
  
 
@@ -16,28 +16,28 @@
         grid-gap: 1rem;
         grid-auto-rows: 1fr;
     }
-    &.has-1-cols {
-        .block-editor-block-list__layout {
-            grid-template-columns: repeat(1, 1fr);
+    
+    @for $i from 1 through 4 {
+        &.has-#{$i}-cols {
+            .block-editor-block-list__layout {
+                grid-template-columns: repeat(#{$i}, 1fr);
+            }
+           
         }
-        
     }
-    &.has-2-cols {
-        .block-editor-block-list__layout {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
+}
+
+.member-card__image {
+    position: relative;
+    &.is-loading {
+        img {
+            opacity: .3;
+        }  
     }
-    &.has-3-cols {
-        .block-editor-block-list__layout {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        
+    .components-spinner {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
-    &.has-4-cols {
-        .block-editor-block-list__layout {
-            grid-template-columns: repeat(4, 1fr);
-        }
-        
-    }
- }
+}

@@ -27,6 +27,22 @@ registerBlockType( 'viktorias-blocks/team-member', {
 			source: 'html',
 			selector: 'p',
 		},
+		imageId: {
+			type: 'number',
+		},
+		imageAlt: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'img',
+			attribute: 'alt',
+			default: '',
+		},
+		imageUrl: {
+			type: 'string',
+			source: 'attribute',
+			selector: 'img',
+			attribute: 'src',
+		},
 	},
 	edit: EditBlock,
 	save: SaveBlock,

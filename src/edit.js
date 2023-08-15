@@ -19,7 +19,7 @@ const EditBlock = ( { attributes, setAttributes } ) => {
 	return (
 		<div
 			{ ...useBlockProps( {
-				className: `has-${ columns }-cols`
+				className: `has-${ columns }-cols`,
 			} ) }
 		>
 			<InspectorControls>
