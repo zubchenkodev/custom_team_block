@@ -43,6 +43,23 @@ registerBlockType( 'viktorias-blocks/team-member', {
 			selector: 'img',
 			attribute: 'src',
 		},
+		socialLinks: {
+			type: 'array',
+			default: [],
+			source: 'query',
+			selector: '.member-card__social-icons ul li',
+			query: {
+				icon: {
+					source: 'attribute',
+					attribute: 'data-icon',
+				},
+				link: {
+					source: 'attribute',
+					selector: 'a',
+					attribute: 'href',
+				},
+			},
+		},
 	},
 	edit: EditBlock,
 	save: SaveBlock,

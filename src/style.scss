@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'DM Sans';
+    src: url('./DMSans-VariableFont_opsz\,wght.ttf') format('truetype');
+}
+
+* {
+    font-family: 'DM Sans', sans-serif;
+}
+
+
 .wp-block-viktorias-blocks-team-block {
     display: grid;
     grid-gap: 1rem;
@@ -9,3 +19,38 @@
         }
     }
 } 
+
+.member-card__social-icons {
+    ul {
+        display: flex;
+        gap: .5rem;
+        padding-left: 0;
+        align-items: baseline;
+        margin: 0;
+        li {
+            list-style-type: none;
+            button {
+                height: 20px;
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                margin: 0;
+                color: #846de7;
+            }
+            a {
+                text-decoration: none;
+                color: #846de7;
+                &:hover {
+                    color: #2f1893;
+                }
+            }
+        }
+        li.selected-link {
+            button {
+                outline: 2px solid #846de7;
+            }
+            
+        }
+    }
+}

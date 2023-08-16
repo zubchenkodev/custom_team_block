@@ -1,6 +1,14 @@
 /*!***************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/style.scss ***!
   \***************************************************************************************************************************************************************************************************************************************/
+@font-face {
+  font-family: "DM Sans";
+  src: url(fonts/DMSans-VariableFont_opsz,wght.90130db6.ttf) format("truetype");
+}
+* {
+  font-family: "DM Sans", sans-serif;
+}
+
 .wp-block-viktorias-blocks-team-block {
   display: grid;
   grid-gap: 1rem;
@@ -17,6 +25,36 @@
 }
 .wp-block-viktorias-blocks-team-block.has-4-cols {
   grid-template-columns: repeat(4, 1fr);
+}
+
+.member-card__social-icons ul {
+  display: flex;
+  gap: 0.5rem;
+  padding-left: 0;
+  align-items: baseline;
+  margin: 0;
+}
+.member-card__social-icons ul li {
+  list-style-type: none;
+}
+.member-card__social-icons ul li button {
+  height: 20px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin: 0;
+  color: #846de7;
+}
+.member-card__social-icons ul li a {
+  text-decoration: none;
+  color: #846de7;
+}
+.member-card__social-icons ul li a:hover {
+  color: #2f1893;
+}
+.member-card__social-icons ul li.selected-link button {
+  outline: 2px solid #846de7;
 }
 
 /*# sourceMappingURL=style-index.css.map*/

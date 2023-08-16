@@ -20,5 +20,50 @@
       "type": "number",
       "default": 2
     }
+  },
+  "example": {
+    "attributes": {
+      "columns": 2
+    },
+    "innerBlocks": [
+      {
+        "name": "viktorias-blocks/team-member",
+        "attributes": {
+          "name": "Lorem Ipsum",
+          "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "imageUrl": "https://picsum.photos/id/875/200/100",
+          "socialLinks": [
+            {
+              "icon": "facebook"
+            },
+            {
+              "icon": "twitter"
+            },
+            {
+              "icon": "instagram"
+            }
+          ]
+        }
+      },
+      {
+        "name": "viktorias-blocks/team-member",
+        "attributes": {
+          "name": "Lorem Ipsum",
+          "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          "imageUrl": "https://picsum.photos/id/1075/200/100",
+          "socialLinks": [
+            {
+              "icon": "facebook"
+            },
+            {
+              "icon": "twitter"
+            },
+            {
+              "icon": "instagram"
+            }
+          ]
+        }
+      }
+    ]
   }
 }

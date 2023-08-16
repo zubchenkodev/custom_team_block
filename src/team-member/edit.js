@@ -19,17 +19,32 @@ import {
 	PanelBody,
 	TextareaControl,
 	SelectControl,
+	Icon,
+	Tooltip,
+	TextControl,
+	Button,
 } from '@wordpress/components';
 
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+// This hook is commonly used in React functional components to track the previous value of a state or prop. The usePrevious hook returns the previous value of the input argument during the previous render cycle
+import { usePrevious } from '@wordpress/compose';
 
 import '../editor.scss';
 
 const EditBlock = ( props ) => {
-	const { attributes, setAttributes, noticeOperations, noticeUI } = props;
-	const { name, bio, imageAlt, imageId, imageUrl } = attributes;
+	const {
+		attributes,
+		setAttributes,
+		noticeOperations,
+		noticeUI,
+		isSelected,
+	} = props;
+	const { name, bio, imageAlt, imageId, imageUrl, socialLinks } = attributes;
 	const [ blobUrl, setBlobUrl ] = useState();
+	const [ selectedLink, setSelectedLink ] = useState();
+
+	const prevIsSelected = usePrevious( isSelected );
 
 	const imageObject = useSelect(
 		( select ) => {
@@ -105,6 +120,32 @@ const EditBlock = ( props ) => {
 		noticeOperations.createErrorNotice( message );
 	};
 
+	const addNewSocialItem = () => {
+		setAttributes( {
+			socialLinks: [
+				...socialLinks,
+				{ link: 'wordpress.com', icon: 'wordpress' },
+			],
+		} );
+		setSelectedLink( socialLinks.length );
+	};
+
+	const removeSocialItem = () => {
+		setAttributes( {
+			socialLinks: [
+				...socialLinks.slice( 0, selectedLink ),
+				...socialLinks.slice( selectedLink + 1 ),
+			],
+		} );
+		setSelectedLink();
+	};
+
+	const updateSocialItem = ( type, value ) => {
+		let socialLinksCopy = [ ...socialLinks ];
+		socialLinksCopy[ selectedLink ][ type ] = value;
+		setAttributes( { socialLinks: socialLinksCopy } );
+	};
+
 	useEffect( () => {
 		if ( ! imageId && isBlobURL( imageUrl ) ) {
 			setAttributes( {
@@ -123,6 +164,12 @@ const EditBlock = ( props ) => {
 			setBlobUrl();
 		}
 	}, [ imageUrl ] );
+
+	useEffect( () => {
+		if ( prevIsSelected && ! isSelected ) {
+			setSelectedLink( undefined );
+		}
+	}, [ isSelected, prevIsSelected ] );
 
 	return (
 		<>
@@ -198,6 +245,76 @@ const EditBlock = ( props ) => {
 					value={ bio }
 					onChange={ onChangeBio }
 				/>
+				<div className="member-card__social-icons">
+					<ul>
+						{ socialLinks.map( ( socialLink, index ) => {
+							return (
+								<li
+									key={ index }
+									className={
+										selectedLink === index
+											? 'selected-link'
+											: null
+									}
+								>
+									<button
+										aria-label={ __(
+											'Edit Social Link',
+											'viktorias-block'
+										) }
+										onClick={ () =>
+											setSelectedLink( index )
+										}
+									>
+										<Icon icon={ socialLink.icon } />
+									</button>
+								</li>
+							);
+						} ) }
+						{ isSelected && (
+							<li className="member-card__add-icon">
+								<Tooltip
+									text={ __(
+										'Add Social Link',
+										'viktorias-block'
+									) }
+								>
+									<button
+										aria-label={ __(
+											'Add Social Link',
+											'viktorias-block'
+										) }
+										onClick={ addNewSocialItem }
+									>
+										<Icon icon="plus-alt" />
+									</button>
+								</Tooltip>
+							</li>
+						) }
+					</ul>
+				</div>
+				{ selectedLink != undefined && (
+					<div className="member-card__form-social-icons">
+						<TextControl
+							label={ __( 'Dashicon', 'viktorias-block' ) }
+							value={ socialLinks[ selectedLink ].icon }
+							onChange={ ( icon ) => {
+								updateSocialItem( 'icon', icon );
+							} }
+						/>
+						<TextControl
+							label={ __( 'URL', 'viktorias-block' ) }
+							value={ socialLinks[ selectedLink ].link }
+							onChange={ ( link ) => {
+								updateSocialItem( 'link', link );
+							} }
+						/>
+						<br />
+						<Button isDestructive onClick={ removeSocialItem }>
+							{ __( 'Remove', 'viktorias-block' ) }
+						</Button>
+					</div>
+				) }
 			</div>
 		</>
 	);

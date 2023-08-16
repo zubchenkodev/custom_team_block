@@ -141,13 +141,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
 /* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../editor.scss */ "./src/editor.scss");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/compose */ "@wordpress/compose");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_compose__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../editor.scss */ "./src/editor.scss");
 
 
 
 
 
 
+
+// This hook is commonly used in React functional components to track the previous value of a state or prop. The usePrevious hook returns the previous value of the input argument during the previous render cycle
 
 
 const EditBlock = props => {
@@ -155,16 +159,20 @@ const EditBlock = props => {
     attributes,
     setAttributes,
     noticeOperations,
-    noticeUI
+    noticeUI,
+    isSelected
   } = props;
   const {
     name,
     bio,
     imageAlt,
     imageId,
-    imageUrl
+    imageUrl,
+    socialLinks
   } = attributes;
   const [blobUrl, setBlobUrl] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
+  const [selectedLink, setSelectedLink] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)();
+  const prevIsSelected = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_6__.usePrevious)(isSelected);
   const imageObject = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_5__.useSelect)(select => {
     const {
       getMedia
@@ -236,6 +244,28 @@ const EditBlock = props => {
     noticeOperations.removeAllNotices();
     noticeOperations.createErrorNotice(message);
   };
+  const addNewSocialItem = () => {
+    setAttributes({
+      socialLinks: [...socialLinks, {
+        link: 'wordpress.com',
+        icon: 'wordpress'
+      }]
+    });
+    setSelectedLink(socialLinks.length);
+  };
+  const removeSocialItem = () => {
+    setAttributes({
+      socialLinks: [...socialLinks.slice(0, selectedLink), ...socialLinks.slice(selectedLink + 1)]
+    });
+    setSelectedLink();
+  };
+  const updateSocialItem = (type, value) => {
+    let socialLinksCopy = [...socialLinks];
+    socialLinksCopy[selectedLink][type] = value;
+    setAttributes({
+      socialLinks: socialLinksCopy
+    });
+  };
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!imageId && (0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(imageUrl)) {
       setAttributes({
@@ -253,6 +283,11 @@ const EditBlock = props => {
       setBlobUrl();
     }
   }, [imageUrl]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (prevIsSelected && !isSelected) {
+      setSelectedLink(undefined);
+    }
+  }, [isSelected, prevIsSelected]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, imageUrl && !(0,_wordpress_blob__WEBPACK_IMPORTED_MODULE_3__.isBlobURL)(imageUrl) && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Image Settings', 'viktorias-block')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextareaControl, {
@@ -306,7 +341,45 @@ const EditBlock = props => {
     allowedFormats: [],
     value: bio,
     onChange: onChangeBio
-  })));
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "member-card__social-icons"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, socialLinks.map((socialLink, index) => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      key: index,
+      className: selectedLink === index ? 'selected-link' : null
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Edit Social Link', 'viktorias-block'),
+      onClick: () => setSelectedLink(index)
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Icon, {
+      icon: socialLink.icon
+    })));
+  }), isSelected && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+    className: "member-card__add-icon"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Tooltip, {
+    text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Social Link', 'viktorias-block')
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    "aria-label": (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Social Link', 'viktorias-block'),
+    onClick: addNewSocialItem
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Icon, {
+    icon: "plus-alt"
+  })))))), selectedLink != undefined && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "member-card__form-social-icons"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Dashicon', 'viktorias-block'),
+    value: socialLinks[selectedLink].icon,
+    onChange: icon => {
+      updateSocialItem('icon', icon);
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TextControl, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('URL', 'viktorias-block'),
+    value: socialLinks[selectedLink].link,
+    onChange: link => {
+      updateSocialItem('link', link);
+    }
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("br", null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+    isDestructive: true,
+    onClick: removeSocialItem
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove', 'viktorias-block')))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.withNotices)(EditBlock));
 
@@ -367,6 +440,23 @@ __webpack_require__.r(__webpack_exports__);
       source: 'attribute',
       selector: 'img',
       attribute: 'src'
+    },
+    socialLinks: {
+      type: 'array',
+      default: [],
+      source: 'query',
+      selector: '.member-card__social-icons ul li',
+      query: {
+        icon: {
+          source: 'attribute',
+          attribute: 'data-icon'
+        },
+        link: {
+          source: 'attribute',
+          selector: 'a',
+          attribute: 'href'
+        }
+      }
     }
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -389,8 +479,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -402,7 +495,8 @@ const SaveBlock = ({
     bio,
     imageUrl,
     imageAlt,
-    imageId
+    imageId,
+    socialLinks
   } = attributes;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ..._wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()
@@ -410,13 +504,24 @@ const SaveBlock = ({
     src: imageUrl,
     alt: imageAlt,
     className: imageId ? `wp-image-${imageId}` : ''
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+  }), name && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     tagName: "h4",
     value: name
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
+  }), bio && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.RichText.Content, {
     tagName: "p",
     value: bio
-  }));
+  }), socialLinks && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "member-card__social-icons"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, socialLinks.map((socialLink, index) => {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
+      key: index,
+      "data-icon": socialLink.icon
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: socialLink.link
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Icon, {
+      icon: socialLink.icon
+    })));
+  }))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SaveBlock);
 
@@ -486,6 +591,16 @@ module.exports = window["wp"]["components"];
 
 /***/ }),
 
+/***/ "@wordpress/compose":
+/*!*********************************!*\
+  !*** external ["wp","compose"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["compose"];
+
+/***/ }),
+
 /***/ "@wordpress/data":
 /*!******************************!*\
   !*** external ["wp","data"] ***!
@@ -522,7 +637,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"viktorias-blocks/team-block","version":"0.1.0","title":"Team Block","category":"media","icon":"groups","description":"Team Members Block.","supports":{"html":false},"textdomain":"viktorias-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"columns":{"type":"number","default":2}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"viktorias-blocks/team-block","version":"0.1.0","title":"Team Block","category":"media","icon":"groups","description":"Team Members Block.","supports":{"html":false},"textdomain":"viktorias-blocks","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"columns":{"type":"number","default":2}},"example":{"attributes":{"columns":2},"innerBlocks":[{"name":"viktorias-blocks/team-member","attributes":{"name":"Lorem Ipsum","bio":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.","imageUrl":"https://picsum.photos/id/875/200/100","socialLinks":[{"icon":"facebook"},{"icon":"twitter"},{"icon":"instagram"}]}},{"name":"viktorias-blocks/team-member","attributes":{"name":"Lorem Ipsum","bio":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.","imageUrl":"https://picsum.photos/id/1075/200/100","socialLinks":[{"icon":"facebook"},{"icon":"twitter"},{"icon":"instagram"}]}}]}}');
 
 /***/ })
 
